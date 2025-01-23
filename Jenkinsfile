@@ -3,13 +3,12 @@ pipeline {
 
     environment {
         GIT_REPO = 'https://github.com/evalight/AVSrgr.git'
-        BRANCH_NAME = 'main'  // Убедитесь, что указана правильная ветка
+        BRANCH_NAME = 'main'  
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Клонируем репозиторий и проверяем нужную ветку
                 checkout scm
             }
         }
@@ -22,12 +21,9 @@ pipeline {
                     if (changes) {
                         echo "Changed files: ${changes}"
 
-                        // Выводим содержимое каждого измененного файла
                         changes.split("\n").each { file ->
                             echo "Contents of ${file}:"
-                            // Проверяем, существует ли файл, прежде чем выводить его содержимое
                             if (fileExists(file)) {
-                                // Используем sh для выполнения команды cat и вывода содержимого файла
                                 sh(script: "cat ${file}")
                             } else {
                                 echo "File ${file} not found in the repository."
